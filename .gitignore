@@ -4,6 +4,7 @@ Thumbs.db
 desktop.ini
 .vscode/
 .idea/
+tmp/
 
 # ROS 2 构建产物与运行日志
 build/
