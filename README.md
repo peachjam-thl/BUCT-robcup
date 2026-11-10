@@ -49,7 +49,30 @@
 | [项目启动指南.md](项目启动指南.md) | 从「打开终端」到「完整寻物任务」的分阶段实施建议、官方资料索引与一个月节奏 |
 | [整车验收记录.md](整车验收记录.md) | 软硬件、通信、网络、命令与阶段验收的实际情况记录（空白项为「未确认」） |
 | [docs/USB直连与SSH登录.md](docs/USB直连与SSH登录.md) | 已跑通的 Windows USB 网络配置、SSH 登录流程与后续诊断命令 |
+| [tools/board-check.sh](tools/board-check.sh) | 板端只读体检：时间、网络、NetworkManager、无线内核层、服务、驱动、路由 DNS、ROS、工作空间与设备 |
+| [tools/pc-link-check.ps1](tools/pc-link-check.ps1) | 电脑侧链路自检：USB 网卡是否就位、地址是否配对、板卡是否可达 |
 | [日志/](日志/) | 每日工作记录，文件名格式 `YYYY-MM-DD.md` |
+
+## 工具脚本
+
+**板端体检**（USB 已连好时，在仓库根目录执行一条命令，密码输入一次）：
+
+```powershell
+Get-Content .\tools\board-check.sh -Raw | ssh wheeltec@192.168.128.10 'bash -s'
+```
+
+脚本只读，不改配置、不需要 root。输出较长，建议重定向存档：
+
+```powershell
+Get-Content .\tools\board-check.sh -Raw | ssh wheeltec@192.168.128.10 'bash -s' | Tee-Object -FilePath .\tmp\board-check.txt
+```
+
+**电脑侧自检**（板卡 ping 不通时先跑这个）：
+
+```powershell
+powershell -NoProfile -File .\tools\pc-link-check.ps1
+```
+
 
 ## 每日记录
 
