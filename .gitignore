@@ -1,0 +1,28 @@
+# 系统与编辑器
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# ROS 2 构建产物与运行日志
+build/
+install/
+log/
+.ros/
+*.log
+
+# 大文件（数据集、录包、镜像）不入库
+*.bag
+*.db3
+*.mcap
+*.iso
+*.img
+*.zip
+
+# 凭据与密钥
+.env
+*.pem
+*.key
+id_rsa*
+*_token*
