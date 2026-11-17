@@ -5,6 +5,8 @@ desktop.ini
 .vscode/
 .idea/
 tmp/
+__pycache__/
+*.py[cod]
 
 # ROS 2 构建产物与运行日志
 build/

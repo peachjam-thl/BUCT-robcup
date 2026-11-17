@@ -17,13 +17,15 @@
 | Wi-Fi | ✅ 已连接目标网络；`wlan0` 地址为 `192.168.1.105/24`，网关 `192.168.1.1`（本次分配，后续可能变化） |
 | 小车访问互联网 | ✅ `www.baidu.com` 解析成功，ping 收到 3/3 回复、0% 丢包；尚未单独验证 HTTPS 或软件包下载 |
 | 系统日期 | ✅ `date` 显示 2026-11-17 17:07:15 CST；NTP/RTC 状态及重启后的时间保持待查 |
-| 底盘驱动 / STM32 协议 | ❌ 未确认来源与协议 |
+| 底盘驱动 / STM32 通信 | ✅ 已找到既有驱动，串口打开且有效反馈到达；固件版本仍待追溯 |
+| 架空低速运动 | ✅ x/y 四轮响应与结束停转已确认；yaw 有角速度反馈、结束反馈归零，实际停转待单独确认 |
+| 指令断流 / 失联停车 | ⏳ 未实测；已准备默认关闭的短时断流检查选项 |
 | 雷达 / 相机 / 讯飞模块 | ❌ 型号与驱动未确认 |
 | 建图 / 定位 / 导航 | ❌ 未开始 |
 
-当前已完成「电脑通过 USB SSH 登录板卡」及「小车连接 Wi-Fi，完成 DNS/外网 ping 验证」。下一步盘点已有 ROS 工作空间、运行节点、Topic 和底盘固件来源。尚未收到这些盘点命令的输出，也未进行底盘运动、传感器启动、建图或导航验收。
+当前已完成 USB SSH、Wi-Fi 基础联网、既有工作空间盘点、底盘串口与反馈验收，以及三轴架空低速指令测试。下一步验证指令断流时的停车行为，再安排地面方向与定距测试；传感器、建图和导航尚未验收。
 
-连接方法及证据见 [USB 直连与 SSH 登录](docs/USB直连与SSH登录.md)、[Wi-Fi 恢复与联网验证](docs/WiFi恢复与联网验证.md)。
+连接方法及证据见 [USB 直连与 SSH 登录](docs/USB直连与SSH登录.md)、[Wi-Fi 恢复与联网验证](docs/WiFi恢复与联网验证.md)、[底盘启动与架空验收](docs/底盘启动与架空验收.md)。
 
 ## 硬件
 
@@ -41,6 +43,7 @@
 
 - Ubuntu 22.04.5 LTS (jammy)
 - ROS 2 Humble（`ROS_DISTRO=humble`；是否叠加 TROS，以及环境入口脚本待核实）
+- 已有 `/home/wheeltec/wheeltec_ros2` 与 `/home/wheeltec/wheeltec_tros` 工作空间；当前底盘包来自前者的 install，具体环境加载链待核对
 - 规划中的技术栈：slam_toolbox、AMCL、NavFn、DWB、YOLOv8n（BPU 部署）
 
 ## 仓库结构
@@ -51,6 +54,9 @@
 | [整车验收记录.md](整车验收记录.md) | 软硬件、通信、网络、命令与阶段验收的实际情况记录（空白项为「未确认」） |
 | [docs/USB直连与SSH登录.md](docs/USB直连与SSH登录.md) | 已跑通的 Windows USB 网络配置、SSH 登录流程与后续诊断命令 |
 | [docs/WiFi恢复与联网验证.md](docs/WiFi恢复与联网验证.md) | 无线不可用诊断、恢复操作顺序、2026-11-17 联网与时间验证结果 |
+| [docs/底盘启动与架空验收.md](docs/底盘启动与架空验收.md) | 实际启动入口、驱动源码初检、静止反馈、三轴测试和待验证停止保护 |
+| [tools/base_forward_probe.py](tools/base_forward_probe.py) | 有时长和速度限制的架空三轴测试；退出时尝试重复零速，不能替代下位机保护 |
+| [tests/check_forward_probe.py](tests/check_forward_probe.py) | 不连接机器人、不依赖 ROS 的脚本控制流程模拟检查 |
 | [tools/board-check.sh](tools/board-check.sh) | 板端只读体检：时间、网络、NetworkManager、无线内核层、服务、驱动、路由 DNS、ROS、工作空间与设备 |
 | [tools/pc-link-check.ps1](tools/pc-link-check.ps1) | 电脑侧链路自检：USB 网卡是否就位、地址是否配对、板卡是否可达 |
 | [日志/](日志/) | 每日工作记录，文件名格式 `YYYY-MM-DD.md` |
