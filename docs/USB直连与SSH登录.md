@@ -1,6 +1,6 @@
 # Windows 通过 USB 直连 RDK X5 并登录 SSH
 
-更新日期：2026-11-10。当前流程已由用户在自己的整车与 Windows 电脑上完成，证据来自会话中的终端截图；账户密码不入库。
+更新日期：2026-11-17。USB 登录流程已由用户在自己的整车与 Windows 电脑上完成；11 月 17 日又通过小车 shell 完成 Wi-Fi 与基础外网验证。证据来自用户提供的截图和终端文字，账户密码不入库。
 
 ## 已完成的结果
 
@@ -13,7 +13,7 @@
 | 小车 USB 网络地址 | `192.168.128.10` |
 | Windows ping 测试 | 发送 4，接收 4，丢失 0，显示延迟 <1 ms，TTL=64；这是一次测试，不代表长期链路指标 |
 | SSH | `ssh wheeltec@192.168.128.10` 成功，出现 Ubuntu 欢迎信息 |
-| Wi-Fi / 互联网 | Wi-Fi 仍待排查；小车访问互联网尚未验证 |
+| Wi-Fi / 互联网 | 2026-11-17 已连接，wlan0 为 192.168.1.105/24；域名解析和外网 ping 3/3 通过，详见 Wi-Fi 恢复文档 |
 
 ## 1. 接线
 
@@ -53,7 +53,7 @@ ssh wheeltec@192.168.128.10
 
 成功登录后在 SSH 会话中输入的 Linux 命令运行在小车上。退出会话用 `exit`。
 
-## 4. 当前尚未完成的联网诊断
+## 4. 早期联网诊断及后续结果
 
 已有本机输出：
 
@@ -61,7 +61,7 @@ ssh wheeltec@192.168.128.10
 - `rfkill list` 显示无线的 Soft blocked / Hard blocked 均为 `no`。
 - `systemctl is-active hostapd` 返回 `inactive`。这仅说明该 systemd 服务当时未处于 active，不能据此排除手动启动的进程或其他网络配置。
 
-下一步在已登录的小车 SSH 会话依次采集：
+早期要求在已登录的小车 SSH 会话采集：
 
 ```bash
 nmcli -f GENERAL.STATE,GENERAL.REASON device show wlan0
@@ -69,9 +69,9 @@ iw dev
 systemctl is-active wpa_supplicant
 ```
 
-这三项输出尚未收到，不能写成诊断已经完成。先依据结果判断 Wi-Fi 状态，再决定是否调整服务或驱动；本次没有执行清空地址、卸载驱动或重写网络配置。
+2026-11-17 已收到对应诊断：驱动为 aicwf_sdio，无固件缺失标记，接口当时为 AP 模式；wpa_supplicant 运行，但启动时间晚于 NetworkManager 放弃重试的时间。随后给出重启 NetworkManager 的建议，用户成功激活目标 Wi-Fi。完整过程与验证结果见 [Wi-Fi 恢复与联网验证](WiFi恢复与联网验证.md)。本次没有卸载无线驱动的执行记录。
 
-随后查看：
+后续检查清单：
 
 ```bash
 date
@@ -82,6 +82,6 @@ ros2 topic list -t
 ls ~
 ```
 
-这些也是待执行检查。截图出现的早期日期和 `Last login` 记录不能代替当前 `date`/`timedatectl` 输出；桌面“ROS2 V3.5(humble)”标识也不能直接认定为 RDK OS 或 TROS 的准确版本。
+其中 date 已于 2026-11-17 验证为正确日期；timedatectl、SSH ROS 环境、节点、Topic 和目录输出仍待采集。桌面“ROS2 V3.5(humble)”标识不能直接认定为 RDK OS 或 TROS 的准确版本。
 
-USB SSH 成功只说明电脑可访问小车，尚未配置互联网共享，也未证明小车能访问外网。
+USB SSH 本身只提供电脑与小车的连接。本次小车外网访问经另行连接 Wi-Fi 并测试得到验证，不是通过 USB 网络共享实现的。
