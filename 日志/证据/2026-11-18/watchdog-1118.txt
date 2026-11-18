@@ -1,0 +1,8 @@
+[INFO] [0946685974.816805445] [cmd_vel_watchdog]: watching /cmd_vel; timeout 0.40 s; zero refresh 20 Hz
+[INFO] [0946685974.820731408] [cmd_vel_watchdog]: WATCHDOG_START: no command yet; holding zero
+[INFO] [0946686003.145189404] [cmd_vel_watchdog]: WATCHDOG_RELEASE: moving command received
+[WARN] [0946686006.568965937] [cmd_vel_watchdog]: WATCHDOG_STOP: no /cmd_vel for 0.40 s; publishing zero
+[INFO] [0946686039.638414276] [cmd_vel_watchdog]: WATCHDOG_RELEASE: moving command received
+[WARN] [0946686042.024266111] [cmd_vel_watchdog]: WATCHDOG_STOP: no /cmd_vel for 0.40 s; publishing zero
+[INFO] [0946686068.999282235] [cmd_vel_watchdog]: WATCHDOG_RELEASE: moving command received
+[WARN] [0946686071.374323340] [cmd_vel_watchdog]: WATCHDOG_STOP: no /cmd_vel for 0.40 s; publishing zero
