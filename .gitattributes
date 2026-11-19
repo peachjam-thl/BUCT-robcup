@@ -2,3 +2,6 @@
 *.sh   text eol=lf
 *.md   text eol=lf
 *.ps1  text eol=crlf
+
+# Preserve the exact bytes of archived D3 probe CSV evidence (original CRLF).
+日志/证据/2026-11-18/d3-*.csv -text whitespace=cr-at-eol
