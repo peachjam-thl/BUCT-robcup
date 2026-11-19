@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="780" viewBox="0 0 1100 780" role="img" aria-labelledby="title desc">
+  <title id="title">示例场地的建图采集顺序</title>
+  <desc id="desc">非比例抽象示意。现场可能不同。起点经G0进入客厅公共区，再分别访问卧室、餐厅和书房并回访公共区。G1用途待确认。无导航坐标。</desc>
+  <defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto-start-reverse"><path d="M0,0 L9,4.5 L0,9Z" fill="#167c80"/></marker></defs>
+  <rect width="1100" height="780" fill="#f4f7fa"/>
+  <g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif">
+    <text x="48" y="55" font-size="30" font-weight="700" fill="#162b43">示例场地 · 建图采集顺序</text>
+    <text x="48" y="88" font-size="17" fill="#52637a">仅为抽象连通示意｜非比例｜实际场地不一定相同｜不含可执行导航点</text>
+    <rect x="48" y="118" width="1004" height="53" rx="9" fill="#fff0ce"/>
+    <text x="69" y="151" font-size="18" fill="#80551c">先核对现场：入口/出口、门宽、房间连通、家具与通行权限；不按截图像素估算净宽。</text>
+    <rect x="155" y="207" width="280" height="144" rx="15" fill="#e5eefb" stroke="#829bb9" stroke-width="2"/>
+    <text x="295" y="249" text-anchor="middle" font-size="25" fill="#203e62">餐厅支路</text>
+    <text x="295" y="282" text-anchor="middle" font-size="17" fill="#52637a">R3：观察实际边界后返回J</text>
+    <text x="295" y="311" text-anchor="middle" font-size="16" fill="#52637a">图上与客厅未见完整分隔线</text>
+    <rect x="645" y="207" width="300" height="144" rx="15" fill="#e5eefb" stroke="#829bb9" stroke-width="2"/>
+    <text x="795" y="249" text-anchor="middle" font-size="25" fill="#203e62">卧室支路 · G2</text>
+    <text x="795" y="286" text-anchor="middle" font-size="17" fill="#52637a">R2：进房观察，再回访J</text>
+    <rect x="155" y="429" width="280" height="144" rx="15" fill="#e5eefb" stroke="#829bb9" stroke-width="2"/>
+    <text x="295" y="475" text-anchor="middle" font-size="25" fill="#203e62">书房支路 · G3</text>
+    <text x="295" y="512" text-anchor="middle" font-size="17" fill="#52637a">R4：进房观察，再回访J</text>
+    <rect x="645" y="411" width="300" height="175" rx="15" fill="#dbf0e9" stroke="#33846c" stroke-width="2"/>
+    <text x="795" y="456" text-anchor="middle" font-size="25" font-weight="700" fill="#215c4b">客厅宽敞公共区 J</text>
+    <text x="795" y="492" text-anchor="middle" font-size="17" fill="#356356">R1：短距离先检查地图质量</text>
+    <text x="795" y="521" text-anchor="middle" font-size="17" fill="#356356">每次支路结束重复观察</text>
+    <text x="795" y="550" text-anchor="middle" font-size="16" fill="#356356">J是采集区域代号，不是坐标</text>
+    <g fill="none" stroke="#167c80" stroke-width="3">
+      <path d="M795,367 L795,397"/>
+      <path d="M451,490 L629,490"/>
+      <path d="M451,280 L540,280 L540,430 L629,430"/>
+    </g>
+    <g fill="#167c80">
+      <path d="M795,361 L789,373 L801,373 Z M795,403 L789,391 L801,391 Z"/>
+      <path d="M445,490 L457,484 L457,496 Z M635,490 L623,484 L623,496 Z"/>
+      <path d="M445,280 L457,274 L457,286 Z M635,430 L623,424 L623,436 Z"/>
+    </g>
+    <text x="540" y="516" text-anchor="middle" font-size="16" fill="#167c80">往返采集</text>
+    <path d="M155,278 L77,278" fill="none" stroke="#9a7b44" stroke-width="2" stroke-dasharray="6 5"/>
+    <text x="80" y="232" text-anchor="middle" font-size="18" fill="#80551c">G1</text>
+    <text x="80" y="309" text-anchor="middle" font-size="15" fill="#80551c">用途待核对</text>
+    <rect x="645" y="641" width="300" height="67" rx="12" fill="#fff" stroke="#829bb9" stroke-width="2"/>
+    <text x="795" y="670" text-anchor="middle" font-size="19" fill="#203e62">备赛侧 / 起点S候选 · G0</text>
+    <text x="795" y="695" text-anchor="middle" font-size="15" fill="#52637a">只有确认此处为入口时采用</text>
+    <path d="M795,626 L795,601" fill="none" stroke="#167c80" stroke-width="3"/>
+    <path d="M795,595 L789,607 L801,607 Z M795,632 L789,620 L801,620 Z" fill="#167c80"/>
+    <text x="48" y="646" font-size="18" font-weight="700" fill="#203e62">参考次序</text>
+    <text x="48" y="679" font-size="17" fill="#52637a">S → J → 卧室 → J → 餐厅 → J</text>
+    <text x="48" y="708" font-size="17" fill="#52637a">→ 书房 → J → S附近 → 检查与补扫</text>
+    <text x="48" y="753" font-size="16" fill="#80551c">回到起点不保证闭环成功；停车、地面运动、扫描与TF验收通过后，才进行移动采集。</text>
+  </g>
+</svg>
