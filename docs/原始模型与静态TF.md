@@ -1,12 +1,12 @@
-# 原始模型与静态TF执行卡
+﻿# 原始模型与静态TF执行卡
 
 日期：2026-11-21。原文件盘点及电脑离线检查完成；14:03新增入口已在小车启动，两个静态节点打印发布日志、URDF解析出各部件。**三项实际数据查询已于 2026-11-21 由 USB SSH 补执行并归档（见下节）；RViz联合显示仍待验收**，不能仅由进程启动记为通过。
 
-**暂停点：用户已明确下面的三项实际数据验证在 14:03 时尚未执行。** 后续已在同一日通过 USB SSH 补做，结果见下一节与[证据](证据/2026-11-21/static-tf-checks.md)。是否已经退出各终端进程尚未回传；不要假定进程一直运行或已自动停止。
+**暂停点：用户已明确下面的三项实际数据验证在 14:03 时尚未执行。** 后续已在同一日通过 USB SSH 补做，结果见下一节与[证据](../日志/证据/2026-11-21/static-tf-checks.md)。是否已经退出各终端进程尚未回传；不要假定进程一直运行或已自动停止。
 
 ## 2026-11-21 实采结果（本会话执行）
 
-板子重启后 ROS 图为空（`ros2 node list` 无输出、`/tf_static` unknown）。重新上传并启动[静态入口](../tools/vendor_model_static.launch.py)后采集，原始输出存于[证据](证据/2026-11-21/static-tf-checks.md)。
+板子重启后 ROS 图为空（`ros2 node list` 无输出、`/tf_static` unknown）。重新上传并启动[静态入口](../tools/vendor_model_static.launch.py)后采集，原始输出存于[证据](../日志/证据/2026-11-21/static-tf-checks.md)。
 
 | 检查 | 实际输出 |
 | --- | --- |
@@ -92,7 +92,17 @@ timeout 6s ros2 topic echo /joint_states --once
 
 能查询到变换不等于已经排除重复发布来源；随后结合实际TF关系、节点和启动配置核对各子帧发布职责。关节默认显示值不证明编码器、轮速或里程计，相机TF正常也不证明相机驱动正常。
 
-**三项验证有实际结果后**，再在RViz把Fixed Frame改为base_footprint、启用RobotModel/TF，检查/scan可转换并与模型对应，保存配置并回填日志。此时仍没有odom到base的动态TF，不能据此开始移动建图。本次归档不执行上述步骤。
+**三项验证有实际结果后**，再在RViz把Fixed Frame改为base_footprint、启用RobotModel/TF，检查/scan可转换并与模型对应，保存配置并回填日志。此时仍没有odom到base的动态TF，不能据此开始移动建图。
+
+### RViz 联合显示（2026-11-21 已执行）
+
+用[静态检查配置](../tools/rviz/static_check.rviz)在板端 `DISPLAY=:0` 启动 RViz（`rviz2 -d`），配置内容：Fixed Frame `base_footprint`、RobotModel（`/robot_description`）、TF、LaserScan（`/scan`，Points，5 px，白色）、Grid 0.5 m。板端副本在 `~/rviz/static_check.rviz`，日志 `/tmp/rviz.log`。
+
+结果：`Global Status: Ok`，四轮与机身可分辨，白色扫描点围成墙/箱体轮廓，模型与扫描同时显示正常（屏幕照片：[rviz-joint-display.jpg](../日志/证据/2026-11-21/rviz-joint-display.jpg)）。
+
+距离粗测：当时前方最近扫描点在车体坐标 `x=0.389 m, y=0.034 m`（离激光 0.359 m、偏轴 5.5°）；用户用卷尺从**车头外沿**量到同一障碍约 **26 cm**，差值约 13 cm 与车头外沿到车体中心的距离属同一量级。**这是粗测一致性，不作标定精度结论**；该 13 cm 未单独实测，扫描点偏轴也说明障碍面可能略斜。
+
+仍未做：动态 `odom→base_footprint` TF、多传感器联合负载、RViz 配置的版本管理（当前配置随仓库提交，板端副本不算）。
 
 ## 检查与边界
 
