@@ -17,6 +17,8 @@
 
 原URDF通过robot_state_publisher发布base_link到camera_link；原模型launch另有base_footprint到camera_link的静态发布，会争用同一个子帧。新入口保留URDF中的camera_link发布，省略额外的相机静态节点。**只整理新入口的发布职责，不改厂商文件或其中的数值。**
 
+laser与laser_link是不同子帧，共存本身不构成重复发布；不把laser_link的原始pi旋转追加到扫描帧laser。检查目标是每个子帧具有唯一父帧和明确、无冲突的发布来源，不是要求整个/tf_static只有一个发布者。新入口的robot_state_publisher和两个静态节点分别负责不同边，多个话题发布者本身正常；启动前拒绝已有发布者只是本工具防止叠加启动的约束。
+
 ## 静态入口
 
 [vendor_model_static.launch.py](../tools/vendor_model_static.launch.py)在板端读取已安装的原始launch字面参数及完整URDF，不导入或执行原整车launch。仅启动robot_state_publisher、joint_state_publisher和两条静态变换：
@@ -74,6 +76,8 @@ timeout 6s ros2 topic echo /joint_states --once
 - [ ] /joint_states：收到四轮关节名称与默认显示位置；它们不是编码器或轮速反馈。
 
 前两项为持续查询，6秒结束可能返回124；依据此前是否输出正确变换判断。第三项应收到一条后自行结束，若只超时未收到消息则尚未通过。若最初等待发现、随后读到变换，保留全过程。joint_state_publisher的Waiting日志仍需由消息检查确认后续结果。
+
+能查询到变换不等于已经排除重复发布来源；随后结合实际TF关系、节点和启动配置核对各子帧发布职责。关节默认显示值不证明编码器、轮速或里程计，相机TF正常也不证明相机驱动正常。
 
 **三项验证有实际结果后**，再在RViz把Fixed Frame改为base_footprint、启用RobotModel/TF，检查/scan可转换并与模型对应，保存配置并回填日志。此时仍没有odom到base的动态TF，不能据此开始移动建图。本次归档不执行上述步骤。
 
