@@ -1,0 +1,24 @@
+# 2026-11-21 证据索引
+
+来源为用户本日提供的原始照片、用户标注图和粘贴的终端输出。本目录归档四张代表性图片，逐字节复制并与源文件核对SHA256；未编辑、重绘或压缩。box-identified.png中的红圈由用户提供，用于声明箱子对应的回波。
+
+| 文件 | 内容 / 可支持的结论 | 边界 |
+| --- | --- | --- |
+| [bench-scene.jpg](bench-scene.jpg) | 小车、箱子和室内场景摆放 | 单张照片不能精确恢复距离、扫描高度或坐标外参 |
+| [box-identified.png](box-identified.png) | 用户红圈标出箱子对应回波 | 按操作者对应关系记录，未进行自主目标识别 |
+| [front-box-selection.jpg](front-box-selection.jpg) | 前方箱子选中点坐标；卷尺约93cm由用户文字补充 | 图中代表点径向约91.3、91.7、94.1cm；单帧、约数，不是精度标定 |
+| [left-box-selection.jpg](left-box-selection.jpg) | 左侧箱子选中点，Y为正、X接近0；用户文字报告100cm | 中心附近回波约90cm，约10cm差异来源未确认，保留待复测；不覆盖原配置 |
+| [static-model-startup.md](static-model-startup.md) | 用户粘贴的14:03静态模型启动输出 | 支持原参数读取、URDF解析、进程启动及节点自报发布，不等于实际TF消息查询通过 |
+
+## 原图SHA256
+
+```text
+6cd383f4ef6b2a2516649aa66a7574bae7b0020bab8ed4661dda002e5c8094a9  bench-scene.jpg
+037909538023bb690b46266d9b0a1d71ce3fde30befc198caa4e8ac806b41e75  box-identified.png
+81d56713ff712e567ebaf37c15c5a9411b08d9ac943a7924437141e3fae7d246  front-box-selection.jpg
+ec78f161a2c42ac8c61dd9d9e77230b6d26b4c61e810f260afde4856478f2d9b  left-box-selection.jpg
+```
+
+照片拍摄角度、显示点大小和目标位置会影响观察；未由截图估算完整有效点比例、长时稳定性或全向覆盖。右侧测试被用户跳过；顶部高度19.5cm仅有用户粗测描述。当前未归档车上实际导出的RViz配置，也未取得以下验证输出：两项tf2_echo、/joint_states首条消息检查。
+
+接续以[当日日志](../../2026-11-21.md)与[原始模型/静态TF执行卡](../../../docs/原始模型与静态TF.md)为准。其他会话照片未全部复制，不把代表性归档写成完整传感器原始数据集。
