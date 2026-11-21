@@ -11,6 +11,8 @@
 | [static-model-startup.md](static-model-startup.md) | 用户粘贴的14:03静态模型启动输出 | 支持原参数读取、URDF解析、进程启动及节点自报发布，不等于实际TF消息查询通过 |
 | [static-tf-checks.md](static-tf-checks.md) | 2026-11-21 通过 USB SSH 补测的两项 `tf2_echo`、`/joint_states`、`/tf_static` 发布者与边 | 支持静态 TF 与关节显示值已实际取得；不含动态 TF、RViz 联合显示或相机驱动结论 |
 | [rviz-joint-display.jpg](rviz-joint-display.jpg) | 板端 RViz 屏幕照片：Fixed Frame `base_footprint`、RobotModel、TF、LaserScan 同时显示，Global Status Ok | 支持联合显示成立；屏幕翻拍，不能据此做精度标定；不含动态 TF |
+| [d3-gate-x-1121b.csv](d3-gate-x-1121b.csv) / [.md](d3-gate-x-1121b.md) | 充电后门控 x 断流原始数据（0.05 m/s、3 s） | 运动段 vx 0.051–0.060，停发后约 1.088 s 近零；门控 `DISARMED/COMMAND_TIMEOUT`；架空、电压约 10.4 V |
+| [d3-gate-yaw-1121.csv](d3-gate-yaw-1121.csv) / [.md](d3-gate-yaw-1121.md) | 门控 yaw 转动原始数据（0.15 rad/s、3 s） | wz 峰值 0.276 后归零；门控同样锁定；架空 |
 
 ## 原图SHA256
 
