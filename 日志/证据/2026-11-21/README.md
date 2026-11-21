@@ -9,6 +9,7 @@
 | [front-box-selection.jpg](front-box-selection.jpg) | 前方箱子选中点坐标；卷尺约93cm由用户文字补充 | 图中代表点径向约91.3、91.7、94.1cm；单帧、约数，不是精度标定 |
 | [left-box-selection.jpg](left-box-selection.jpg) | 左侧箱子选中点，Y为正、X接近0；用户文字报告100cm | 中心附近回波约90cm，约10cm差异来源未确认，保留待复测；不覆盖原配置 |
 | [static-model-startup.md](static-model-startup.md) | 用户粘贴的14:03静态模型启动输出 | 支持原参数读取、URDF解析、进程启动及节点自报发布，不等于实际TF消息查询通过 |
+| [static-tf-checks.md](static-tf-checks.md) | 2026-11-21 通过 USB SSH 补测的两项 `tf2_echo`、`/joint_states`、`/tf_static` 发布者与边 | 支持静态 TF 与关节显示值已实际取得；不含动态 TF、RViz 联合显示或相机驱动结论 |
 
 ## 原图SHA256
 
@@ -19,6 +20,6 @@
 ec78f161a2c42ac8c61dd9d9e77230b6d26b4c61e810f260afde4856478f2d9b  left-box-selection.jpg
 ```
 
-照片拍摄角度、显示点大小和目标位置会影响观察；未由截图估算完整有效点比例、长时稳定性或全向覆盖。右侧测试被用户跳过；顶部高度19.5cm仅有用户粗测描述。当前未归档车上实际导出的RViz配置，也未取得以下验证输出：两项tf2_echo、/joint_states首条消息检查。
+照片拍摄角度、显示点大小和目标位置会影响观察；未由截图估算完整有效点比例、长时稳定性或全向覆盖。右侧测试被用户跳过；顶部高度19.5cm仅有用户粗测描述。三项静态数据查询已于本日通过 USB SSH 补做并归档到 [static-tf-checks.md](static-tf-checks.md)；仍未归档车上实际导出的 RViz 配置，也未完成 RViz 联合显示。
 
 接续以[当日日志](../../2026-11-21.md)与[原始模型/静态TF执行卡](../../../docs/原始模型与静态TF.md)为准。其他会话照片未全部复制，不把代表性归档写成完整传感器原始数据集。
