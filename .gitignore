@@ -30,3 +30,6 @@ log/
 *.key
 id_rsa*
 *_token*
+
+# slam_toolbox 位姿图原始文件（仓库内保留 .gz 压缩版）
+*.posegraph
