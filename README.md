@@ -54,7 +54,8 @@
 | 原始模型 / 静态TF | ✅ 本轮两项TF查询、默认/joint_states与RViz联合显示已完成，配置已入库；动态里程计TF未验证；当前模型进程已退出 |
 | 供电与USB稳定性 | ⏳ 11月21日车未动时读到9.705 V，原因待查；充电后架空复测10.408→10.352 V。曾出现USB重置/掉线和板子重启，原因未确认；下次重新读值 |
 | 建图 | 🟡 2026-11-23 首份地图已保存并入库：435×680 栅格、0.05 m、已知 13.4%，见 [maps/2026-11-23](maps/2026-11-23/README.md)；未裁剪、未做重载定位验证 |
-| 定位 / 导航 | ❌ 未开始（下一步：map_server 重载 + AMCL） |
+| 地图重载 / AMCL 定位 | 🟡 2026-11-23 已验证：`nav2_map_server` 加载 435×680 地图、`nav2_amcl` 定位，激光命中占用栅格 88.3%（≤0.15 m，中位 0.05 m） |
+| 导航（Nav2 规划/控制） | ❌ 未开始（下一步：全局/局部代价地图与单点导航） |
 
 另已备份并恢复损坏的 APT 主源，未安装 timesyncd、未升级 systemd。现有 ntp 曾同步成功，但重启后 RTC 回到 2000 年；该问题记录后暂缓继续修改，见 [APT与时间记录](docs/APT主源恢复记录.md)。例图建图路线、现场测量表和只读检查脚本已准备，均不等于实地建图完成。
 
@@ -114,6 +115,8 @@
 | [tests/check_cmd_vel_watchdog.py](tests/check_cmd_vel_watchdog.py) | 看门狗判定逻辑的离线检查（启动保持、超时触发、释放、边界） |
 | [tools/board-check.sh](tools/board-check.sh) | 板端只读体检：时间、网络、NetworkManager、无线内核层、服务、驱动、路由 DNS、ROS、工作空间与设备 |
 | [tools/pc-link-check.ps1](tools/pc-link-check.ps1) | 电脑侧链路自检：USB 网卡是否就位、地址是否配对、板卡是否可达 |
+| [tools/map_status.py](tools/map_status.py) | 只读建图状态：地图尺寸/已知比例、位姿、雷达、`map→odom→base→laser` TF 链；已实机使用 |
+| [tools/localization_check.py](tools/localization_check.py) | 只读定位对齐检查：激光点变换到 map 后统计命中占用栅格比例与中位距离 |
 | [日志/](日志/) | 每日工作记录 `YYYY-MM-DD.md`；原始证据按日期归档在 [日志/证据/](日志/证据/) |
 
 ## 工具脚本

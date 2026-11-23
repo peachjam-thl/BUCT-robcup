@@ -38,6 +38,8 @@
 | `map_20261123_1617.posegraph.gz` | 480 KB | 位姿图（原始 18.8 MB，压缩后入库），用于 slam_toolbox 定位模式恢复 |
 | `map_20261123_1617.data` | 792 KB | 位姿图配套数据 |
 | `preview.png` | 18 KB | 渲染预览 |
+| `localization-overlay.png` | 20 KB | 重载地图后激光落点叠加（红点=激光，蓝圈=机器人） |
+| `localization-pose.json` | 150 B | 扫描匹配得到的定位初值 |
 
 SHA256（与小车原始文件逐字节一致）：
 
@@ -63,6 +65,23 @@ gunzip -k map_20261123_1617.posegraph.gz
 ros2 service call /slam_toolbox/deserialize_map slam_toolbox/srv/DeserializePoseGraph \
   "{filename: '$HOME/maps/2026-11-23/map_20261123_1617', match_type: 2}"
 ```
+
+## 重载与定位验证（2026-11-23 16:40）
+
+同一台车上已用 `nav2_map_server` 重新加载本图、用 `nav2_amcl`（厂商 `param_mini_mec.yaml`，`odom_frame_id=odom_combined`）完成定位：
+
+| 指标 | 结果 |
+| --- | --- |
+| 地图加载 | 435 × 680 @ 0.05 m，configure/activate 成功 |
+| 初始位姿 | 扫描匹配修正后 (0.387, −0.151, 19.3°) |
+| 激光命中占用栅格（≤0.15 m） | **88.3%**（309 点中 273 点） |
+| 到最近占用栅格距离 | 中位数 0.05 m（1 栅格） |
+| AMCL `/amcl_pose` | (0.384, −0.148)，与设定一致 |
+
+证据：[localization-overlay.png](localization-overlay.png)（红点为激光在 map 坐标系下的落点，蓝圈为机器人位置）、[localization-pose.json](localization-pose.json)。
+
+- 初始位姿若用建图停机前的 SLAM 位姿（0.204, −0.240, 42.5°），命中率只有 25.6%，说明该位姿与地图不自洽（相差约 23°）。
+- 用栅格暴力搜索得到 (0.387, −0.151, 19.3°) 后命中率升到 84–88%。**实操不要直接复用上次的位姿**，应在 RViz 里用 2D Pose Estimate 或扫描匹配重新给初值。
 
 ## 已知限制
 
