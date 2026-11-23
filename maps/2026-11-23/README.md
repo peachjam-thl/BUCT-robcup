@@ -35,6 +35,7 @@
 | --- | --- | --- |
 | `map_20261123_1617.pgm` | 295,815 B | 占据栅格图（map_server 标准格式，0=占用 / 205=未知 / 254=空闲） |
 | `map_20261123_1617.yaml` | 135 B | 元数据（分辨率 0.05、原点、阈值） |
+| `map_20261123_1617.posegraph` | 18,816,920 B | 按用户要求补入的位姿图原件，与.gz解压内容逐字节一致 |
 | `map_20261123_1617.posegraph.gz` | 480,691 B | 位姿图压缩后入库，配合.data用于slam_toolbox恢复 |
 | `map_20261123_1617.data` | 808,048 B | 位姿图配套数据 |
 | `preview.png` | 17,892 B | 渲染预览 |
@@ -58,10 +59,12 @@ posegraph cc3297e3656a7e4badc91f218a59fc83423bd2c4380183c464023bf1a943426b
 ros2 run nav2_map_server map_server --ros-args -p yaml_filename:=$HOME/maps/2026-11-23/map_20261123_1617.yaml
 ```
 
-用 slam_toolbox 定位模式恢复位姿图时，先把 `posegraph.gz` 解压成同名 `.posegraph`，与 `.data` 放在同一目录，再用 `deserialize_map` 服务指定该前缀（不带扩展名）：
+仓库现已同时提供位姿图原件和压缩版。完整下载时直接使用`.posegraph`与同目录`.data`，无需解压；只下载压缩版时，在原件不存在的目录解压，避免覆盖已有原件。使用slam_toolbox恢复时，deserialize_map指定不带扩展名的前缀：
 
 ```bash
-gunzip -k map_20261123_1617.posegraph.gz
+if [ ! -f map_20261123_1617.posegraph ]; then
+  gunzip -k map_20261123_1617.posegraph.gz
+fi
 ros2 service call /slam_toolbox/deserialize_map slam_toolbox/srv/DeserializePoseGraph \
   "{filename: '$HOME/maps/2026-11-23/map_20261123_1617', match_type: 2}"
 ```
@@ -84,6 +87,8 @@ ros2 service call /slam_toolbox/deserialize_map slam_toolbox/srv/DeserializePose
 - 用栅格暴力搜索得到 (0.387, −0.151, 19.3°) 后命中率升到 84–88%。**实操不要直接复用上次的位姿**，应在 RViz 里用 2D Pose Estimate 或扫描匹配重新给初值。
 
 ## 已知限制
+
+- 原件来自本机`tmp/field-2026-11-23/map_20261123_1617.posegraph`，归档时复核SHA256与上方记录一致，且与既有.gz解压内容相同；本次补档没有产生新地图或增加实车验收。
 
 - 地图未裁剪，画布外围86.64%是未知区。裁剪按需要另存版本，并同步调整YAML的origin和版本引用、复核定位；保留原图，不把裁剪列为继续验证的必做前置。
 - 外圈放射状射线是门洞外的远距离回波，不是墙体。

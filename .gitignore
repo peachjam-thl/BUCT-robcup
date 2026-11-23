@@ -31,5 +31,7 @@ log/
 id_rsa*
 *_token*
 
-# slam_toolbox 位姿图原始文件（仓库内保留 .gz 压缩版）
+# 默认忽略后续位姿图原件；以下两份按用户要求显式归档
 *.posegraph
+!maps/2026-11-22/start_checkpoint_session.posegraph
+!maps/2026-11-23/map_20261123_1617.posegraph
